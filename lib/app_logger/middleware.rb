@@ -44,7 +44,7 @@ module AppLogger
         http_version:  http_version,
         status_code:   status.to_s[0..3],
         length:        extract_content_length(header),
-        response_time: "%0.4f" % (now - began_at)
+        response_time: (now - began_at)
       }
     end
 
