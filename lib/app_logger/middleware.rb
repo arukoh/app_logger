@@ -35,15 +35,14 @@ module AppLogger
 
       now = Time.now
       {
-        host:          env['HTTP_X_FORWARDED_FOR'] || env["REMOTE_ADDR"] || "-",
+        remote:        env['HTTP_X_FORWARDED_FOR'] || env["REMOTE_ADDR"] || "-",
         user:          env["REMOTE_USER"] || "-",
-        time:          now.iso8601,
         method:        method,
         path:          path,
         query:         query,
         http_version:  http_version,
-        status_code:   status.to_s[0..3],
-        length:        extract_content_length(header),
+        status:        status.to_s[0..3].to_i,
+        response_length: extract_content_length(header).to_i,
         response_time: (now - began_at)
       }
     end
@@ -57,8 +56,8 @@ module AppLogger
         msg[:path],
         msg[:query],
         msg[:http_version],
-        msg[:status_code],
-        msg[:length],
+        msg[:status],
+        msg[:response_length],
         msg[:response_time]
       ]
     end
